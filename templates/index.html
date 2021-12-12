@@ -25,7 +25,9 @@
                         
                 </td>
                 <td>
-                        <a href="/hapus/{{ m.id }}" class="btn btn-danger">Hapus</a>
+                        {% if "admin" in session and session["admin"]==True %}
+                                <a href="/hapus/{{ m.id }}" class="btn btn-danger">Hapus</a>
+                        {% endif %}
                         <button class="btn btn-primary" onclick=show_modal("{{ m.id }}")>Detail</button>
                 </td>
         </tr>
@@ -41,7 +43,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div id="respon"></div>
+                <div class="spinner-border text-primary" role="status" id="loading">
+                        <span class="visually-hidden">Loading...</span>
+                </div>
+                <div id="respon"></div>
             </div>
           </div>
         </div>
@@ -55,12 +60,22 @@
         function show_modal(user_id)
         {
                 // panggil API dengan ajax
+                $("#loading").removeClass("d-none")
+                $("#respon").addClass("d-none")
                 $.ajax("/api/mhs/detail/"+user_id,
                 {
                         success:function(data)
                         {
                                 // ubah text element dengan id "resp" dari request API yang diterima
+                                $("#respon").removeClass("d-none")
                                 $("#respon").text(data);
+                                $("#loading").addClass("d-none")
+                        },
+                        error:function(data)
+                        {
+                                $("#respon").removeClass("d-none")
+                                $("#respon").html("<b class='text-danger'>Eror, belum ada data.<b>");
+                                $("#loading").addClass("d-none")     
                         }
                 })
                 // cari modal dengan id exampleModal

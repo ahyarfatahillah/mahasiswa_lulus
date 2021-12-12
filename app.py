@@ -33,7 +33,8 @@ def index():
 
 @app.route('/hapus/<get_id>')
 def hapus(get_id):
-    db.collection("mahasiswa").document(get_id).delete()
+    if "admin" in session:
+        db.collection("mahasiswa").document(get_id).delete()
     return redirect(url_for('index'))
 
 @app.route('/api/mhs')
@@ -95,6 +96,8 @@ def login():
         for doc in docs:
             mhs=doc.to_dict()
             if request.form["password"]==mhs["password"]:
+                if "admin" in mhs:
+                    session["admin"]=mhs["admin"]
                 session["login"]=True
                 session["user"]=mhs
                 session["user_id"]=doc.id

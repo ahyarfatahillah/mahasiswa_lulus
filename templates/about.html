@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+Halo,
+{% if lulus == 1 %}
+    <p>Anda Lulus</p>
+{% elif lulus == 2 %}
+    <p>Coba Lagi</p>
+{% else %}
+    <p>Tidak Lulus</p>
+{% endif %}
+
+{% endblock content%}
+
+

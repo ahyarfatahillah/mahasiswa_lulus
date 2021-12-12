@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% set active_page="dashboard"%}
+
+{% block content %}
+<h1>Welcome User</h1>
+<h3>Hi, {{ session.user.nama }}</h3>
+<table class="table">
+    <tr>
+            <th>Nama</th>
+            <th>Nilai</th>
+            <th>Status</th>
+    </tr>
+    <tr>
+        <td>{{ session.user.nama }}</td>
+        <td>{{ session.user.nilai }}</td>
+        {% if session.user.nilai >75 %}
+            <td>Lulus</td>
+        {% else %}
+            <td>Tidak Lulus</td>
+            {% endif %}
+    </tr>
+</table>
+
+<!-- update -->
+<h3>Update Data</h3>
+<form action="/dashboard" method="post" class="container">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Nama</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="nama" value="{{ session.user.nama }}">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Nilai</label>
+        <input type="number" class="form-control" id="exampleInputEmail1" name="nilai" value="{{ session.user.nilai }}">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="text" name="password" class="form-control" id="exampleInputPassword1" value="{{ session.user.password }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+{% endblock %}
+
